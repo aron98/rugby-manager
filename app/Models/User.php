@@ -11,6 +11,11 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
     /**
      * The attributes that are mass assignable.
      *
