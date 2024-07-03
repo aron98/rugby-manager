@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transfer;
 use Illuminate\Http\Request;
 
 class TransferController extends Controller
@@ -11,14 +12,11 @@ class TransferController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        $transfers = Transfer::all()->sortBy(function(Transfer $transfer){
+            return $transfer->getEarliestBeginDate();
+        });
+        return view('transfers', [
+            'transfers' => $transfers
+        ]);
     }
 }
