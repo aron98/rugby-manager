@@ -17,7 +17,8 @@ class TransferController extends Controller
             return $transfer->getEarliestBeginDate();
         });
         return view('transfers', [
-            'transfers' => $transfers
+            'transfers' => $transfers,
+            'types' => TransferType::cases()
         ]);
     }
 
@@ -28,7 +29,8 @@ class TransferController extends Controller
             return $transfer->getEarliestBeginDate();
         });
         return view('transfers', [
-            'transfers' => $transfers
+            'transfers' => $transfers,
+            'types' => TransferType::cases()
         ]);
     }
 }

@@ -8,6 +8,11 @@
 <body>
 <div class="container">
     <h1>Transfers</h1>
+    <p>Filter: <a href="/transfers">No filter</a>
+        @foreach($types as $type)
+                   <a href="/transfer/{{$type->name}}">{{$type->value}}</a>
+        @endforeach
+    </p>
     <div class="container">
         <div class="container">
             <div class="row">
