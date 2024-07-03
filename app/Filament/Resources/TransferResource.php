@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TransferResource\Pages;
 use App\Filament\Resources\TransferResource\RelationManagers;
 use App\Models\Transfer;
+use App\TransferType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -27,11 +28,12 @@ class TransferResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('driver')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('license_plate')
-                    ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('transfer_type')
+                    ->required()
+                    ->options(TransferType::class)
             ]);
     }
 
@@ -52,6 +54,8 @@ class TransferResource extends Resource
                 Tables\Columns\TextColumn::make('driver')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('license_plate')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('transfer_type')
                     ->searchable(),
             ])
             ->filters([

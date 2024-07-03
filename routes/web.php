@@ -13,6 +13,7 @@ Route::controller(\App\Http\Controllers\TeamController::class)->group(function()
 
 Route::controller(\App\Http\Controllers\TransferController::class)->group(function(){
     Route::get('/transfers', 'index');
+    Route::get('/transfer/{transferType}', 'show');
 });
 
 Route::controller(\App\Http\Controllers\PlaceController::class)->group(function(){

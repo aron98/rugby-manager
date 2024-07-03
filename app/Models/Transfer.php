@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\TransferType;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,11 @@ class Transfer extends Model
     protected $fillable = [
         "transfer_name",
         "driver",
-        "license_plate"
+        "license_plate",
+        "transfer_type"
+    ];
+    protected $casts = [
+        "transfer_type" => TransferType::class
     ];
 
     public function transferParts(): HasMany {

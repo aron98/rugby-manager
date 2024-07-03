@@ -12,6 +12,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">Transfer</div>
+                <div class="col">Provider</div>
                 <div class="col">Transfer date</div>
                 <div class="col">Departure time</div>
                 <div class="col">From</div>
@@ -28,6 +29,7 @@
             @foreach($transfer->transferParts()->get()->sortBy('begin') as $tp)
                 <div class="row border">
                     <div class="col border">{{$transfer->transfer_name}}</div>
+                    <div class="col border">{{$transfer->transfer_type->value}}</div>
                     <div class="col border">{{$tp->begin->toDateString()}}</div>
                     <div class="col border">{{$tp->begin->toTimeString()}}</div>
                     <div class="col border">{{$tp->from()->first()->name}}</div>
