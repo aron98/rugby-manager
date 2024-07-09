@@ -16,7 +16,8 @@ class Transfer extends Model
         "transfer_name",
         "driver",
         "license_plate",
-        "transfer_type"
+        "transfer_type",
+        "phone_number"
     ];
     protected $casts = [
         "transfer_type" => TransferType::class

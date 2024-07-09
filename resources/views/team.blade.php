@@ -18,6 +18,7 @@
                 <div class="col">Arrival time</div>
                 <div class="col">Driver</div>
                 <div class="col">License plate</div>
+                <div class="col">Driver phone</div>
             </div>
         </div>
     </div>
@@ -33,6 +34,7 @@
                     <div class="col border">{{$tp->end->toTimeString()}}</div>
                     <div class="col border">{{$tp->transfer()->first()->driver}}</div>
                     <div class="col border">{{$tp->transfer()->first()->license_plate}}</div>
+                    <div class="col border">{{$tp->transfer()->first()->phone_number}}</div>
                 </div>
             @endforeach
         </div>

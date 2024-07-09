@@ -31,6 +31,8 @@ class TransferResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('license_plate')
                     ->maxLength(255),
+                Forms\Components\TextInput::make('phone_number')
+                    ->maxLength(255),
                 Forms\Components\Select::make('transfer_type')
                     ->required()
                     ->options(TransferType::class)
