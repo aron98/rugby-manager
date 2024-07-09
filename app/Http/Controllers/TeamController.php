@@ -25,6 +25,8 @@ class TeamController extends Controller
         $team = Team::findOrFail($id);
         $transferParts = $team->transferPartTeams()->get()->map(function($tpt){
             return $tpt->transferPart()->first();
+        })->filter(function($transferPart){
+            return $transferPart->transfer()->first() != null;
         });
         $transferDays = collect();
         foreach($transferParts as $tp) {
