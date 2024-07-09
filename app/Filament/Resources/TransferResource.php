@@ -55,14 +55,14 @@ class TransferResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('transfer_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make("teams")->label("Teams")
+                Tables\Columns\TextColumn::make("route")->label("Route")
                     ->getStateUsing(function (Transfer $model) {
-                        return $model->transferParts()->get()->flatMap(function($transferPart){
-                            return $transferPart->transferPartTeams()->get()->map(function(TransferPartTeam $tpt){
-                                return $tpt->team()->first()->name;
-                            });
-                        })->unique();
-                    }),
+                        return $model->transferParts()->get()->sortBy("begin")->map(function($transferPart){
+                            return $transferPart->transferPartTeams()->get()->map(function($tpt){
+                                    return $tpt->team()->first()->name;
+                                })->join(", ").": ". $transferPart->from()->first()->name." -> ".$transferPart->to()->first()->name;
+                        });
+                    })->listWithLineBreaks(),
                 Tables\Columns\TextColumn::make('driver')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('license_plate')
