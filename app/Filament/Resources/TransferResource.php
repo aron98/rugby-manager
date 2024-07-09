@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TransferResource\Pages;
 use App\Filament\Resources\TransferResource\RelationManagers;
 use App\Models\Transfer;
+use App\Models\TransferPart;
+use App\Models\TransferPartTeam;
 use App\TransferType;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -53,6 +55,14 @@ class TransferResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('transfer_name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make("teams")->label("Teams")
+                    ->getStateUsing(function (Transfer $model) {
+                        return $model->transferParts()->get()->flatMap(function($transferPart){
+                            return $transferPart->transferPartTeams()->get()->map(function(TransferPartTeam $tpt){
+                                return $tpt->team()->first()->name;
+                            });
+                        })->unique();
+                    }),
                 Tables\Columns\TextColumn::make('driver')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('license_plate')
