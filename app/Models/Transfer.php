@@ -30,4 +30,14 @@ class Transfer extends Model
     public function getEarliestBeginDate() {
         return $this->transferParts()->get()->sortBy('begin')->first()->begin;
     }
+
+    public function teams() {
+        return $this->transferParts()->get()->flatMap(function(TransferPart $tp) {
+            return $tp->transferPartTeams()->get()->flatMap(function(TransferPartTeam $tpt) {
+                return $tpt->team()->get();
+            });
+        })->unique()->map(function($team) {
+            return $team->id;
+        });
+    }
 }

@@ -4,10 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TransferResource\Pages;
 use App\Filament\Resources\TransferResource\RelationManagers;
+use App\Models\Team;
 use App\Models\Transfer;
 use App\Models\TransferPart;
 use App\Models\TransferPartTeam;
 use App\TransferType;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -41,6 +43,9 @@ class TransferResource extends Resource
             ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -60,7 +65,8 @@ class TransferResource extends Resource
                         return $model->transferParts()->get()->sortBy("begin")->map(function($transferPart){
                             return $transferPart->transferPartTeams()->get()->map(function($tpt){
                                     return $tpt->team()->first()->name;
-                                })->join(", ").": ". $transferPart->from()->first()->name." -> ".$transferPart->to()->first()->name;
+                                })->join(", ").": ". $transferPart->from()->first()->name.
+                                " -> ".$transferPart->to()->first()->name;
                         });
                     })->listWithLineBreaks(),
                 Tables\Columns\TextColumn::make('driver')
@@ -71,7 +77,22 @@ class TransferResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('teams')
+                ->multiple()
+                ->options(Team::all()->pluck('name', 'id'))
+                ->query(function(array $data, Builder $query) {
+                    $values = collect($data["values"]);
+                    if (!$values->isEmpty()) {
+                        $goodTransfers = $query->get()->filter(function(Transfer $transfer) use ($values) {
+                            return !$values->filter(function ($value) use ($transfer) {
+                                return $transfer->teams()->contains($value);
+                            })->isEmpty();
+                        })->map(function(Transfer $transfer) {
+                            return $transfer->id;
+                        });
+                        $query->whereIn('id', $goodTransfers);
+                    }
+                })
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
