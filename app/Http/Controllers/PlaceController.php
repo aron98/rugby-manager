@@ -26,6 +26,9 @@ class PlaceController extends Controller
         $transferPartsFrom = $place->transferPartsFrom()->get();
         $transferDaysFrom = collect();
         foreach($transferPartsFrom as $tp) {
+            if ($tp->transfer() == null || $tp->transfer()->first() == null) {
+                continue;
+            }
             $date = $tp->begin->todateString();
             if (!$transferDaysFrom->has($date)) {
                 $transferDaysFrom->put($date, collect());
@@ -35,6 +38,9 @@ class PlaceController extends Controller
         $transferPartsTo = $place->transferPartsTo()->get();
         $transferDaysTo = collect();
         foreach($transferPartsTo as $tp) {
+            if ($tp->transfer() == null || $tp->transfer()->first() == null) {
+                continue;
+            }
             $date = $tp->end->todateString();
             if (!$transferDaysTo->has($date)) {
                 $transferDaysTo->put($date, collect());
