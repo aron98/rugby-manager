@@ -37,7 +37,9 @@ class TeamController extends Controller
             }
             $transferDays->get($date)->push($tp);
         }
-        //dd($transferDays);
+        $transferDays = $transferDays->sortBy(function($transferDay, $key){
+            return $key;
+        });
         return view('team', [
             'team' => $team,
             'transferDays' => $transferDays
