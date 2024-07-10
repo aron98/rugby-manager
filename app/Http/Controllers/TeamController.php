@@ -26,7 +26,8 @@ class TeamController extends Controller
         $transferParts = $team->transferPartTeams()->get()->map(function($tpt){
             return $tpt->transferPart()->first();
         })->filter(function($transferPart){
-            return $transferPart->transfer()->first() != null;
+            return $transferPart != null &&
+                $transferPart->transfer()->first() != null;
         });
         $transferDays = collect();
         foreach($transferParts as $tp) {
