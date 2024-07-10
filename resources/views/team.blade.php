@@ -25,7 +25,7 @@
     @foreach($transferDays as $transferDay)
         <div class="container">
             <h3>{{$transferDay->first()->begin->toDateString()}}</h3>
-            @foreach($transferDay->sortBy('begin') as $tp)
+            @foreach($transferDay->sortBy(['begin', 'end']) as $tp)
                 <div class="row border">
                     <div class="col border">{{$tp->transfer()->first()->transfer_name}}</div>
                     <div class="col border">{{$tp->begin->toTimeString()}}</div>
